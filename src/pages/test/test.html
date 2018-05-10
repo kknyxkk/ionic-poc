@@ -14,17 +14,17 @@
 
 
 <ion-content padding>
-  <ion-list>
-
-    <ion-item>
-      <ion-label floating>Username</ion-label>
-      <ion-input type="text"></ion-input>
-    </ion-item>
-  
-    <ion-item>
-      <ion-label floating>Password</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
-      <button ion-button outline (click)="showAlert()">Logar</button>
-  </ion-list>
+    <ion-card>
+        <img src='http://qnimate.com/wp-content/uploads/2014/03/images2.jpg'/>
+        <ion-card-header>
+          {{ beer.name }}
+        </ion-card-header>
+      
+        <ion-card-content>
+          <p>
+              Empresa: <strong>{{ beer.mark }}</strong> - Preço: <strong>{{ beer.price }}</strong>
+          </p>
+        </ion-card-content>
+      
+      </ion-card>
 </ion-content>

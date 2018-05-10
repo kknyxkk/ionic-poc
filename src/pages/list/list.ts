@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { Http, RequestOptions, Headers } from '@angular/http';
 
 @Component({
   selector: 'page-list',
@@ -7,31 +8,38 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class ListPage {
   selectedItem: any;
+  private url:string = 'https://beer.symfonycasts.com.br/v1'
   icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+  public beer = {
+    name: "",
+    price: "",
+    type: "",
+    mark: ""
+  };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public http: Http,
+    public toastCtrl: ToastController
+  ) {
 
-    // Let's populate this page with some filler content for funzies
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
+  }
+  saveBeer(beer){
+    let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
 
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+    let options = new RequestOptions({ headers: headers });
+
+    this.http.post(this.url + '/beers', beer, options)
+             .map(res => res.json())
+             .subscribe(data => {
+                let toast = this.toastCtrl.create({
+                  message: data.msg,
+                  duration: 3000
+                });
+                toast.present();
+          });
   }
 
-  itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(ListPage, {
-      item: item
-    });
-  }
 }

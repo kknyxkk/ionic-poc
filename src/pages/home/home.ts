@@ -24,7 +24,11 @@ export class HomePage {
       this.beers = data;
     });
   }
-  goToTestPage() {
-    this.navCtrl.push(TestPage);
+  
+  getBeerInfo(id) {
+    this.navCtrl.push(TestPage, {
+      'beer_id': id,
+      'api_url': this.url
+    });
   }
 }
